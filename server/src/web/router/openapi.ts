@@ -6,6 +6,7 @@ import {
 } from "@asteasolutions/zod-to-openapi";
 import { extendZodWithOpenApi } from "@asteasolutions/zod-to-openapi";
 import z from "zod";
+import { ErrorResponse } from "../error";
 import type { GenericHandler } from "./router";
 extendZodWithOpenApi(z);
 
@@ -20,7 +21,7 @@ export const handleOpenApi: GenericHandler<z.ZodType> = ({ router }) => {
 
 			if (method.response == null) {
 				responses[204] = {
-					description: "No Content",
+					description: "Success",
 				};
 			} else {
 				responses[200] = {
@@ -32,6 +33,18 @@ export const handleOpenApi: GenericHandler<z.ZodType> = ({ router }) => {
 					},
 				};
 			}
+
+			const errorResponse = {
+				description: "Error",
+				content: {
+					"application/json": {
+						schema: ErrorResponse,
+					},
+				},
+			};
+
+			// biome-ignore lint/complexity/useLiteralKeys: can't use 'default' as a key
+			responses["default"] = errorResponse;
 
 			const request: NonNullable<RouteConfig["request"]> = {
 				params: route.params,

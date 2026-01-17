@@ -3,12 +3,25 @@ import z, { type ZodError } from "zod";
 
 type ErrorContext = string;
 
+const ERROR_MESSAGES = Object.fromEntries(
+	Object.entries(STATUS_CODES).map(([code, message]) => [
+		code,
+		message?.toLowerCase() ?? "unknown_error",
+	]),
+);
+
+export const ErrorResponse = z.object({
+	status: z.number(),
+	message: z.string(),
+	context: z.string().optional(),
+});
+
 export class HttpError extends Error {
 	public readonly status: number;
 	public readonly context: ErrorContext | null;
 
 	constructor(status: number, message?: string, context?: ErrorContext) {
-		super(message ?? STATUS_CODES[status] ?? "Unknown Error");
+		super(message ?? ERROR_MESSAGES[status] ?? "unknown_error");
 
 		this.status = status;
 		this.context = context ?? null;
@@ -17,7 +30,7 @@ export class HttpError extends Error {
 	toJson() {
 		return {
 			status: this.status,
-			message: this.message ?? undefined,
+			message: this.message,
 			context: this.context ?? undefined,
 		};
 	}
@@ -29,13 +42,13 @@ export class HttpError extends Error {
 
 export class NotFoundError extends HttpError {
 	constructor(message?: string, context?: ErrorContext) {
-		super(404, message, context);
+		super(404, message ?? "not_found", context);
 	}
 }
 
 export class BadRequestError extends HttpError {
 	constructor(message?: string, context?: ErrorContext) {
-		super(400, message, context);
+		super(400, message ?? "bad_request", context);
 	}
 }
 
@@ -44,7 +57,7 @@ export class InternalServerError extends HttpError {
 	public readonly internalOnlyMessage: string | null;
 
 	constructor(internalOnlyMessage?: string) {
-		super(400);
+		super(400, "internal_server_error");
 
 		this.internalOnlyMessage = internalOnlyMessage ?? null;
 	}
@@ -54,7 +67,7 @@ export class ValidationError extends HttpError {
 	public readonly zodError: ZodError | null;
 
 	constructor(message?: string, zodError?: ZodError) {
-		super(400, message);
+		super(400, message ?? "validation_error");
 
 		this.zodError = zodError ?? null;
 	}
