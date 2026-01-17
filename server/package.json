@@ -14,7 +14,7 @@
     "lint": "biome check ./src",
     "lint:fix": "biome check --write ./src",
     "format": "biome format --write ./src",
-    "test": "yarn check && yarn lint",
+    "test": "yarn run check && yarn lint",
     "ci": "yarn test"
   },
   "dependencies": {

@@ -12,7 +12,7 @@
     "dev": "yarn workspace @forestkatsch/phosphor-server dev",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
-    "test": "yarn workspaces foreach -pt --if-present run test",
+    "test": "yarn workspaces foreach -Apt run test",
     "ci": "yarn test",
     "prepare": "husky install"
   },
