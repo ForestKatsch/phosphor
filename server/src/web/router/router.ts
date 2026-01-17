@@ -9,25 +9,30 @@ import type {
 	IntrospectedRoute,
 	MatchHandlerResult,
 	MethodName,
+	PathInput,
 	RouterMethods,
 } from "./types";
 
-export class Router<TPath extends PathSegment[] = []>
+type PathSegments<TPath extends PathInput> = TPath extends string
+	? ParsePath<TPath>
+	: TPath;
+
+export class Router<TPath extends PathInput = []>
 	implements RouterMethods<TPath>
 {
 	private readonly path: PathSegment[];
 	private readonly trie: Trie<Map<string, HandlerEntry>>;
 
-	constructor(path: PathSegment[] = [], parent?: Router<PathSegment[]>) {
+	constructor(path: PathSegment[] = [], parent?: Router<PathInput>) {
 		this.path = path;
 		this.trie = parent?.trie ?? new Trie();
 	}
 
 	route<Path extends string>(
 		path: Path,
-	): Router<[...TPath, ...ParsePath<Path>]> {
+	): Router<[...PathSegments<TPath>, ...ParsePath<Path>]> {
 		const fullPath = [...this.path, ...parsePath(path)];
-		return new Router(fullPath, this);
+		return new Router(fullPath, this as Router<PathInput>);
 	}
 
 	handle<
@@ -40,7 +45,9 @@ export class Router<TPath extends PathSegment[] = []>
 		schemas?: HandlerSchemas<TBody, TQuery, TResponse>,
 	): this {
 		const mergedSchemas = { ...schemas };
-		const entry: HandlerEntry = { handler: handler as HandlerEntry["handler"] };
+		const entry: HandlerEntry = {
+			handler: handler as HandlerEntry["handler"],
+		};
 		if (mergedSchemas.body) {
 			entry.body = mergedSchemas.body;
 		}
@@ -147,7 +154,11 @@ export class Router<TPath extends PathSegment[] = []>
 		}
 
 		if (match.wildcard) {
-			return { handler: entry, params: match.params, wildcard: match.wildcard };
+			return {
+				handler: entry,
+				params: match.params,
+				wildcard: match.wildcard,
+			};
 		}
 
 		return { handler: entry, params: match.params };

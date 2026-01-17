@@ -1,16 +1,22 @@
 import type { z } from "zod";
 import type { Simplify } from "../../util/types";
 import type { Request } from "../request";
-import type { ParamsFromSegments, PathSegment } from "./path";
+import type { ParamsFromSegments, ParsePath, PathSegment } from "./path";
 import type { Router } from "./router";
 
-export type ParamsForPath<TPath extends PathSegment[]> = Simplify<
-	ParamsFromSegments<TPath>
+export type PathInput = PathSegment[] | string;
+
+type PathSegments<TPath extends PathInput> = TPath extends string
+	? ParsePath<TPath>
+	: TPath;
+
+export type ParamsForPath<TPath extends PathInput> = Simplify<
+	ParamsFromSegments<PathSegments<TPath>>
 > &
 	Record<string, string>;
 
 export type Handler<
-	TPath extends PathSegment[] = PathSegment[],
+	TPath extends PathInput = PathSegment[],
 	TBody extends z.ZodType | undefined = undefined,
 	TQuery extends z.ZodType = z.ZodType,
 	TResponse extends z.ZodType | undefined = undefined,
@@ -70,7 +76,7 @@ export type Method =
 	| "HEAD";
 export type MethodName = Lowercase<Method>;
 
-export type MethodBuilder<TPath extends PathSegment[]> = <
+export type MethodBuilder<TPath extends PathInput> = <
 	TBody extends z.ZodType | undefined = undefined,
 	TQuery extends z.ZodType = z.ZodType,
 	TResponse extends z.ZodType | undefined = undefined,
@@ -79,6 +85,6 @@ export type MethodBuilder<TPath extends PathSegment[]> = <
 	schemas?: HandlerSchemas<TBody, TQuery, TResponse>,
 ) => Router<TPath>;
 
-export type RouterMethods<TPath extends PathSegment[]> = {
+export type RouterMethods<TPath extends PathInput> = {
 	[K in MethodName]: MethodBuilder<TPath>;
 };

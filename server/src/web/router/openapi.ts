@@ -17,8 +17,6 @@ export const handleOpenApi: GenericHandler<z.ZodType> = ({ router }) => {
 		for (const method of route.methods) {
 			const responses: Record<string, ResponseConfig> = {};
 
-			console.log(route.path);
-
 			if (method.response == null) {
 				responses[204] = {
 					description: "Success",
