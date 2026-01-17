@@ -5,6 +5,17 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
+"@asteasolutions/zod-to-openapi@npm:^8.4.0":
+  version: 8.4.0
+  resolution: "@asteasolutions/zod-to-openapi@npm:8.4.0"
+  dependencies:
+    openapi3-ts: "npm:^4.1.2"
+  peerDependencies:
+    zod: ^4.0.0
+  checksum: 10c0/2099663ed790c732d80009589ca67e73d59162e1b505b8de70ce634f5296e81a097b54feccb6d1256d8618018680625ccd5889c460bfe44ccfbec1d67126a321
+  languageName: node
+  linkType: hard
+
 "@biomejs/biome@npm:^1.9.4":
   version: 1.9.4
   resolution: "@biomejs/biome@npm:1.9.4"
@@ -457,13 +468,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@forestkatsch/phosphor-server@workspace:server"
   dependencies:
+    "@asteasolutions/zod-to-openapi": "npm:^8.4.0"
     "@biomejs/biome": "npm:^1.9.4"
     "@tsconfig/strictest": "npm:^2.0.2"
     "@types/node": "npm:^22.10.5"
     esbuild: "npm:^0.24.2"
     tsx: "npm:^4.19.3"
     typescript: "npm:^5.7.3"
-    zod: "npm:^3.23.8"
+    zod: "npm:^4.3.5"
   languageName: unknown
   linkType: soft
 
@@ -472,6 +484,7 @@ __metadata:
   resolution: "@forestkatsch/phosphor@workspace:."
   dependencies:
     husky: "npm:^9.0.11"
+    prettier: "npm:^3.8.0"
   languageName: unknown
   linkType: soft
 
@@ -1084,6 +1097,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"openapi3-ts@npm:^4.1.2":
+  version: 4.5.0
+  resolution: "openapi3-ts@npm:4.5.0"
+  dependencies:
+    yaml: "npm:^2.8.0"
+  checksum: 10c0/97de2d24e9ceffb89e1388e137e4a6e17ee57a02dce0c938a5e98b1338ac72b31e8b2ce8dd28945ad43fae8bee2a145892cb548ba5ae60b0930f1b6b79b0747d
+  languageName: node
+  linkType: hard
+
 "p-map@npm:^7.0.2":
   version: 7.0.4
   resolution: "p-map@npm:7.0.4"
@@ -1105,6 +1127,15 @@ __metadata:
   version: 4.0.3
   resolution: "picomatch@npm:4.0.3"
   checksum: 10c0/9582c951e95eebee5434f59e426cddd228a7b97a0161a375aed4be244bd3fe8e3a31b846808ea14ef2c8a2527a6eeab7b3946a67d5979e81694654f939473ae2
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^3.8.0":
+  version: 3.8.0
+  resolution: "prettier@npm:3.8.0"
+  bin:
+    prettier: bin/prettier.cjs
+  checksum: 10c0/8926e9c9941a293b76c2d799089d038e9f6d84fb37702fc370bedd03b3c70d7fcf507e2e3c4f151f222d81820a3b74cac5e692c955cfafe34dd0d02616ce8327
   languageName: node
   linkType: hard
 
@@ -1301,9 +1332,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:^3.23.8":
-  version: 3.25.76
-  resolution: "zod@npm:3.25.76"
-  checksum: 10c0/5718ec35e3c40b600316c5b4c5e4976f7fee68151bc8f8d90ec18a469be9571f072e1bbaace10f1e85cf8892ea12d90821b200e980ab46916a6166a4260a983c
+"yaml@npm:^2.8.0":
+  version: 2.8.2
+  resolution: "yaml@npm:2.8.2"
+  bin:
+    yaml: bin.mjs
+  checksum: 10c0/703e4dc1e34b324aa66876d63618dcacb9ed49f7e7fe9b70f1e703645be8d640f68ab84f12b86df8ac960bac37acf5513e115de7c970940617ce0343c8c9cd96
+  languageName: node
+  linkType: hard
+
+"zod@npm:^4.3.5":
+  version: 4.3.5
+  resolution: "zod@npm:4.3.5"
+  checksum: 10c0/5a2db7e59177a3d7e202543f5136cb87b97b047b77c8a3d824098d3fa8b80d3aa40a0a5f296965c3b82dfdccdd05dbbfacce91347f16a39c675680fd7b1ab109
   languageName: node
   linkType: hard

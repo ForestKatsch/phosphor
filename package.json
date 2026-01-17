@@ -10,11 +10,14 @@
   ],
   "scripts": {
     "dev": "yarn workspace @forestkatsch/phosphor-server dev",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
     "test": "yarn workspaces foreach -pt --if-present run test",
     "ci": "yarn test",
     "prepare": "husky install"
   },
   "devDependencies": {
-    "husky": "^9.0.11"
+    "husky": "^9.0.11",
+    "prettier": "^3.8.0"
   }
 }
