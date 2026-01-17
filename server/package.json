@@ -1,0 +1,31 @@
+{
+  "name": "@forestkatsch/phosphor-server",
+  "version": "0.0.0",
+  "private": true,
+  "description": "",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "yarn build:types && yarn build:js",
+    "build:js": "node ./scripts/build.mjs",
+    "build:types": "tsc -p tsconfig.json --emitDeclarationOnly",
+    "dev": "tsx watch src/index.ts",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "lint": "biome check ./src",
+    "lint:fix": "biome check --write ./src",
+    "format": "biome format --write ./src",
+    "test": "yarn check && yarn lint",
+    "ci": "yarn test"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@tsconfig/strictest": "^2.0.2",
+    "@types/node": "^22.10.5",
+    "esbuild": "^0.24.2",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3"
+  }
+}

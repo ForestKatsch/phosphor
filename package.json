@@ -1,0 +1,20 @@
+{
+  "name": "@forestkatsch/phosphor",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "yarn@4.6.0",
+  "description": "",
+  "license": "MIT",
+  "workspaces": [
+    "server"
+  ],
+  "scripts": {
+    "dev": "yarn workspace @forestkatsch/phosphor-server dev",
+    "test": "yarn workspaces foreach -pt --if-present run test",
+    "ci": "yarn test",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^9.0.11"
+  }
+}
