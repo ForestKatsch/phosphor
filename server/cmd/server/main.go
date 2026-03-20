@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"forestkatsch.com/phosphor/internal/router"
+	"forestkatsch.com/phosphor/internal/service"
 )
 
 func main() {
@@ -20,8 +21,10 @@ func main() {
 	}))
 	slog.SetDefault(logger)
 
+	service := service.New(logger)
+
 	// start server
-	h := router.New(logger)
+	h := router.New(logger, service)
 
 	srv := &http.Server{Addr: *addr, Handler: h}
 	slog.Info("starting http server at", "addr", *addr)

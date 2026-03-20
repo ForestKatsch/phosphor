@@ -10,19 +10,19 @@ import (
 )
 
 const getConfig = `-- name: GetConfig :one
-SELECT "key", value, updated_at FROM configs
+SELECT "key", value FROM configs
 WHERE key = ? LIMIT 1
 `
 
 func (q *Queries) GetConfig(ctx context.Context, key string) (Config, error) {
 	row := q.db.QueryRowContext(ctx, getConfig, key)
 	var i Config
-	err := row.Scan(&i.Key, &i.Value, &i.UpdatedAt)
+	err := row.Scan(&i.Key, &i.Value)
 	return i, err
 }
 
 const listConfigs = `-- name: ListConfigs :many
-SELECT "key", value, updated_at FROM configs
+SELECT "key", value FROM configs
 `
 
 func (q *Queries) ListConfigs(ctx context.Context) ([]Config, error) {
@@ -34,7 +34,7 @@ func (q *Queries) ListConfigs(ctx context.Context) ([]Config, error) {
 	var items []Config
 	for rows.Next() {
 		var i Config
-		if err := rows.Scan(&i.Key, &i.Value, &i.UpdatedAt); err != nil {
+		if err := rows.Scan(&i.Key, &i.Value); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -49,11 +49,10 @@ func (q *Queries) ListConfigs(ctx context.Context) ([]Config, error) {
 }
 
 const setConfig = `-- name: SetConfig :exec
-INSERT INTO configs (key, value, updated_at)
-VALUES (?, ?, CURRENT_TIMESTAMP)
+INSERT INTO configs (key, value)
+VALUES (?, ?)
 ON CONFLICT(key) DO UPDATE SET
-    value = excluded.value,
-    updated_at = excluded.updated_at
+    value = excluded.value
 `
 
 type SetConfigParams struct {

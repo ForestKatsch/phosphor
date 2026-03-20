@@ -1,0 +1,17 @@
+version: "2"
+sql:
+  - schema: "db/migrations"
+    queries: "db/queries"
+    engine: "sqlite"
+    gen:
+      go:
+        package: "db"
+        out: "internal/db"
+        overrides:
+          - db_type: "BLOB(16)"
+            go_type:
+              type: "uuid.UUID"
+          - db_type: "BLOB"
+            go_type:
+              type: "byte"
+              slice: true

@@ -1,7 +1,7 @@
 include .env
 export
 
-.PHONY: update schema migrate-up run all
+.PHONY: update schema migrate-up run all clean-db
 
 all: run
 
@@ -17,7 +17,10 @@ ${DATABASE_PATH}:
 migrate-up: schema ${DATABASE_PATH}
 	go run -tags 'sqlite3' github.com/golang-migrate/migrate/v4/cmd/migrate \
 		-path db/migrations \
-		-database "sqlite3://$(shell pwd)/${DATABASE_URL}" up	
+		-database "sqlite3://$(shell pwd)/${DATABASE_URL}" up
 
 run: migrate-up
 	go run ./cmd/server
+
+clean-db:
+	rm -f ${DATABASE_PATH}
